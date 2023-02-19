@@ -81,3 +81,16 @@ double solve(string eq)
     }
     return 0;
 }
+
+Console.WriteLine("KALKULATOR\n");
+Console.WriteLine("A - Podaj własne równanie");
+Console.WriteLine("B - Gotowe wzory i problemy");
+char choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
+Console.Clear();
+switch (choice)
+{
+    case 'A':
+        break;
+    case 'B':
+        break;
+}
