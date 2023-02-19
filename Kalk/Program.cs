@@ -27,7 +27,23 @@ double solve(string eq)
                     i = 0; break;
                 }
             }
-            else if(1==2)
+            else if(1==2 && eq[j] == symbols[2])
+            {
+                string num = String.Empty;
+                for(int k=j-1; k>=0; k--)
+                {
+                    try
+                    {
+                        Convert.ToDouble(eq[k]);
+                        num += Convert.ToString(eq[k]);
+                        startIndex = k;
+                    }
+                    catch(Exception e) { break; }
+                }
+                double result = Convert.ToDouble(num);
+                result *= result;
+                eq.Replace(eq.Remove(j+1).Remove(0, startIndex), Convert.ToString(result));
+            }else if (i==3 || i==4) { }
             {
 
             }
