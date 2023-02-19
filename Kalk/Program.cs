@@ -45,7 +45,32 @@ double solve(string eq)
                 eq.Replace(eq.Remove(j+1).Remove(0, startIndex), Convert.ToString(result));
             }else if (i==3 || i==4) { }
             {
-
+                string num1 = String.Empty;
+                string num2 = String.Empty;
+                if (eq[j] == eq[3]) {
+                    for (int k = j - 1; k >= 0; k--)
+                    {
+                        try
+                        {
+                            Convert.ToDouble(eq[k]);
+                            num1 += Convert.ToString(eq[k]);
+                            startIndex = k;
+                        }
+                        catch (Exception e) { break; }
+                    }
+                    for (int k = j + 1; k < eq.Length; k++)
+                    {
+                        try
+                        {
+                            Convert.ToDouble(eq[k]);
+                            num2 += Convert.ToString(eq[k]);
+                            endIndex = k;
+                        }
+                        catch (Exception e) { break; }
+                    }
+                    double result = Convert.ToDouble(num1) * Convert.ToDouble(num2);
+                    eq.Replace(eq.Remove(endIndex+1).Remove(0, startIndex), Convert.ToString(result));
+                }
             }
         }
         if (found)
