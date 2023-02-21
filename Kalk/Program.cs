@@ -164,12 +164,12 @@ double solve(string eq)
                     }
                     if (eq[j] == eq[5])
                     {
-                        double result = Convert.ToDouble(num1) * Convert.ToDouble(num2);
+                        double result = Convert.ToDouble(num1) + Convert.ToDouble(num2);
                         eq.Replace(eq.Remove(endIndex + 1).Remove(0, startIndex), Convert.ToString(result));
                     }
                     else
                     {
-                        double result = Convert.ToDouble(num1) / Convert.ToDouble(num2);
+                        double result = Convert.ToDouble(num1) - Convert.ToDouble(num2);
                         eq.Replace(eq.Remove(endIndex + 1).Remove(0, startIndex), Convert.ToString(result));
                     }
                 }
@@ -183,7 +183,7 @@ double solve(string eq)
             i++;
         }
     }
-    return 0;
+    return Convert.ToDouble(eq);
 }
 
 Console.WriteLine("KALKULATOR\n");
