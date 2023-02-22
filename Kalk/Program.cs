@@ -137,7 +137,7 @@ double solve(string eq)
                     {
                         if (Char.IsNumber(eq, k) || eq[k] == '.')
                         {
-                            num1.Insert(0, Convert.ToString(eq[k]));
+                            num1 = Convert.ToString(eq[k]) + num1;
                             startIndex = k;
                         }
                         else break;
