@@ -5,13 +5,41 @@ using System.Globalization;
 char[] symbols = { '(', ')', '^', '*', '/', '+', '-' };
 NumberFormatInfo provider = new NumberFormatInfo();
 provider.NumberDecimalSeparator = ".";
+int startIndex = 0;
+int endIndex = 0;
+double[] numberFinder(string eq, int j)
+{
+    string num1 = "";
+    string num2 = "";
+    num1 = Convert.ToString(eq[j - 1]);
+    startIndex = j - 1;
+    for (int k = j - 2; k >= 0; k--)
+    {
+        if (Char.IsNumber(eq, k) || eq[k] == '.' || (eq[k] == '-' && (k == 0 || !Char.IsNumber(eq, k - 1))))
+        {
+            num1 = Convert.ToString(eq[k]) + num1;
+            startIndex--;
+        }
+        else break;
+    }
+    num2 = Convert.ToString(eq[j + 1]);
+    endIndex = j + 1;
+    for (int k = j + 2; k < eq.Length; k++)
+    {
+        if (Char.IsNumber(eq, k) || eq[k] == '.' || (eq[k] == '-' && (k == 0 || !Char.IsNumber(eq, k - 1))))
+        {
+            num2 += Convert.ToString(eq[k]);
+            endIndex++;
+        }
+        else break;
+    }
+    return new double[] {Convert.ToDouble(num1, provider), Convert.ToDouble(num2, provider), num1.Length};
+}
 
 double solve(string eq)
 {
-    int startIndex = 0;
-    int endIndex = 0;
-    string num1 = "";
-    string num2 = "";
+    startIndex = 0;
+    endIndex = 0;
     double n1, n2;
 
     for(int i = 0; i<symbols.Length; i++)
@@ -37,70 +65,24 @@ double solve(string eq)
             //Operacja potęgowania
             else if(i==2 && eq[j] == symbols[2])
             {
-                num1 = Convert.ToString(eq[j - 1]);
-                startIndex = j - 1;
-                for (int k = j - 2; k >= 0; k--)
-                {
-                    if (Char.IsNumber(eq, k) || eq[k] == '.' || (eq[k]=='-' && (k==0 || !Char.IsNumber(eq, k-1))))
-                    {
-                        num1 = Convert.ToString(eq[k]) + num1;
-                        startIndex--;
-                    }
-                    else break;
-                }
-                num2 = Convert.ToString(eq[j + 1]);
-                endIndex = j + 1;
-                for (int k = j + 2; k < eq.Length; k++)
-                {
-                    if (Char.IsNumber(eq, k) || eq[k] == '.' || (eq[k] == '-' && (k == 0 || !Char.IsNumber(eq, k - 1))))
-                    {
-                        num2 += Convert.ToString(eq[k]);
-                        endIndex++;
-                    }
-                    else break;
-                }
-                n1 = Convert.ToDouble(num1, provider);
-                n2 = Convert.ToDouble(num2, provider);
-                double result = Math.Pow(n1, n2);
+                double[] numbers = numberFinder(eq, j);
+                double result = Math.Pow(numbers[0], numbers[1]);
                 eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex + 1), Convert.ToString(result, provider));
             }
             else if (i==3 || i==4)
             {
                 if (eq[j] == symbols[3] || eq[j] == symbols[4]) {
-                    num1 = Convert.ToString(eq[j - 1]);
-                    startIndex = j - 1;
-                    for (int k = j - 2; k >= 0; k--)
-                    {
-                        if (Char.IsNumber(eq, k) || eq[k] == '.' || (eq[k] == '-' && (k == 0 || !Char.IsNumber(eq, k - 1))))
-                        {
-                            num1 = Convert.ToString(eq[k]) + num1;
-                            startIndex--;
-                        }
-                        else break;
-                    }
-                    num2 = Convert.ToString(eq[j + 1]);
-                    endIndex = j + 1;
-                    for (int k = j + 2; k < eq.Length; k++)
-                    {
-                        if (Char.IsNumber(eq, k) || eq[k] == '.' || (eq[k] == '-' && (k == 0 || !Char.IsNumber(eq, k - 1))))
-                        {
-                            num2 += Convert.ToString(eq[k]);
-                            endIndex++;
-                        }
-                        else break;
-                    }
-                    n1 = Convert.ToDouble(num1, provider);
-                    n2 = Convert.ToDouble(num2, provider);
+                    double[] numbers = numberFinder(eq, j);
                     //Mnożenie
                     if (eq[j] == symbols[3])
                     {
-                        double result = n1 * n2;
+                        double result = numbers[0] * numbers[1];
                         eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex+1), Convert.ToString(result, provider));
                     }
                     //Dzielenie
                     else
                     {
-                        double result = n1 / n2;
+                        double result = numbers[0] / numbers[1];
                         eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex + 1), Convert.ToString(result, provider));
                     }
                 }
@@ -108,42 +90,17 @@ double solve(string eq)
             if(i == 5 || i == 6){
                 if ((eq[j] == symbols[5] || eq[j] == symbols[6]) && j!=0)
                 {
-                    num1 = Convert.ToString(eq[j - 1]);
-                    startIndex = j - 1;
-                    for (int k = j - 2; k >= 0; k--)
-                    {
-                        if (Char.IsNumber(eq, k) || eq[k] == '.' || (eq[k] == '-' && (k == 0 || !Char.IsNumber(eq, k - 1))))
-                        {
-                            num1 = Convert.ToString(eq[k]) + num1;
-                            startIndex --;
-                        }
-                        else break;
-                    }
-                    Console.WriteLine("num1 = " + num1);
-                    num2 = Convert.ToString(eq[j + 1]);
-                    endIndex = j+1;
-                    for (int k = j + 2; k < eq.Length; k++)
-                    {
-                        if (Char.IsNumber(eq, k) || eq[k] == '.' || (eq[k] == '-' && (k == 0 || !Char.IsNumber(eq, k - 1))))
-                        {
-                            num2 += Convert.ToString(eq[k]);
-                            endIndex ++;
-                        }
-                        else break;
-                    }
-                    Console.WriteLine("num2 = " + num2);
-                    n1 = Convert.ToDouble(num1, provider);
-                    n2 = Convert.ToDouble(num2, provider);
+                    double[] numbers = numberFinder(eq, j);
                     //Dodawanie
                     if (eq[j] == symbols[5])
                     {
-                        double result = n1 + n2;
+                        double result = numbers[0] + numbers[1];
                         eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex + 1), Convert.ToString(result, provider));
                     }
                     //Odejmowanie
-                    else if(num1.Length>=1)
+                    else if (numbers[2] >=1)
                     {
-                        double result = n1 - n2;
+                        double result = numbers[0] - numbers[1];
                         eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex + 1), Convert.ToString(result, provider));
                     }
                 }
@@ -154,28 +111,61 @@ double solve(string eq)
     return sol;
 }
 
+//UI
 for(; ; )
 {
     Console.WriteLine("KALKULATOR\n");
-    Console.WriteLine("A - Podaj własne równanie");
-    Console.WriteLine("B - Gotowe wzory i problemy");
+    Console.WriteLine("1 - Podaj własne równanie");
+    Console.WriteLine("2 - Gotowe wzory i problemy");
     char choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
     Console.Clear();
     switch (choice)
     {
-        case 'A':
-            
-            for(; ; )
+        case '1':
+            bool guide = true;
+            for (; ; )
             {
-                Console.WriteLine("Podaj działania:");
+                if (guide)
+                {
+                    Console.WriteLine("Dostępne działania\n '+' Dodawanie\n '-'\n '*' Mnożenie\n '/' Dzielenie\n '^' Potęgowanie\n '( )' Nawiasy");
+                    guide = false;
+                }
+                else Console.WriteLine("P - Pomoc");
+                Console.WriteLine("B - Wyjdź");
+                Console.WriteLine("\nDziałanie:");
                 string eq = Console.ReadLine();
                 Console.Clear();
-                double sol = solve(eq);
+                if (eq.ToUpper() == "P") { guide = true; continue; }
+                if (eq.ToUpper() == "B") break;
+                double sol = Math.Round(solve(eq), 6);
                 Console.Write(eq);
                 Console.WriteLine(" = " + sol.ToString(provider));
             }
             break;
-        case 'B':
+        case '2':
+            for(; ; )
+            {
+                Console.WriteLine("1 - Równanie Kwadratowe");
+                Console.WriteLine("B - Wyjdź");
+                choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
+                Console.Clear();
+                switch (choice)
+                {
+                    case '1':
+                        Console.WriteLine("Podaj współczynnik a:");
+                        double a = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("Podaj współczynnik b:");
+                        double b = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("Podaj współczynnik c:");
+                        double c = Convert.ToDouble(Console.ReadLine());
+                        Console.Clear();
+                        Kwadratowe kw = new Kwadratowe(a, b, c);
+                        kw.pisz();
+                        double[] zerow = kw.rozwiazania();
+                        Console.WriteLine("\nx1 = " + zerow[0] + "\nx2 = " + zerow[1]);
+                        break;
+                }
+            }
             break;
     }
 }
