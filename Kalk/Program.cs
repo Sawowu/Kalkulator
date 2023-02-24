@@ -40,7 +40,6 @@ double solve(string eq)
 {
     startIndex = 0;
     endIndex = 0;
-    double n1, n2;
 
     for(int i = 0; i<symbols.Length; i++)
     {
@@ -127,7 +126,7 @@ for(; ; )
             {
                 if (guide)
                 {
-                    Console.WriteLine("Dostępne działania\n '+' Dodawanie\n '-'\n '*' Mnożenie\n '/' Dzielenie\n '^' Potęgowanie\n '( )' Nawiasy");
+                    Console.WriteLine("Dostępne działania\n '+' Dodawanie\n '-'\n '*' Mnożenie\n '/' Dzielenie\n '^' Potęgowanie\n '( )' Nawiasy\n '.' Liczby po przecinku");
                     guide = false;
                 }
                 else Console.WriteLine("P - Pomoc");
@@ -146,6 +145,7 @@ for(; ; )
             for(; ; )
             {
                 Console.WriteLine("1 - Równanie Kwadratowe");
+                Console.WriteLine("2 - Figury Geometryczne");
                 Console.WriteLine("B - Wyjdź");
                 choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
                 Console.Clear();
@@ -162,9 +162,18 @@ for(; ; )
                         Kwadratowe kw = new Kwadratowe(a, b, c);
                         kw.pisz();
                         double[] zerow = kw.rozwiazania();
-                        Console.WriteLine("\nx1 = " + zerow[0] + "\nx2 = " + zerow[1]);
+                        if (zerow!=null && zerow.Length == 1) Console.WriteLine("\nx = "+zerow[0]+"\n");
+                        else if (zerow != null && zerow.Length == 2) Console.WriteLine("\nx1 = " + zerow[0]+"\nx2 = "+zerow[1]+"\n");
+                        else Console.WriteLine("\nRównanie nie ma rozwiązań\n");
+                        break;
+                    case '2':
+                        for(; ; )
+                        {
+
+                        }
                         break;
                 }
+                if (choice == 'B') break;
             }
             break;
     }
