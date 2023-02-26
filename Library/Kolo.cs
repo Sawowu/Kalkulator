@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Library
 {
-    internal class Kolo
+    public class Kolo
     {
         public Kolo(double r)
         {
             this.r = r;
         }
         public double r { get; private set; }
-        public double obwod()
+        public double Obwod()
         {
-            return this.r*2*Math.PI;
+            return Math.Round(this.r*2*Math.PI, 6);
         }
-        public double pole()
+        public double Pole()
         {
-            return Math.Pow(this.r, 2) * Math.PI;
+            return Math.Round(Math.Pow(this.r, 2) * Math.PI, 6);
         }
     }
 }

@@ -13,13 +13,13 @@ namespace Library
         public double a { get; private set; }
         public double b { get; private set; }
         public double c { get; private set; }
-        private double delta()
+        private double Delta()
         {
             return Math.Pow(this.a, 2) - (4*this.b*this.c);
         }
-        public double[]? rozwiazania()
+        public double[]? Rozwiazania()
         {
-            double delta = this.delta();
+            double delta = this.Delta();
             if(delta>0)
             {
                 return new double[] { ((-this.b + delta) / (2 * this.a)), ((-this.b - delta) / (2 * this.a)) };
@@ -29,14 +29,16 @@ namespace Library
             }
             return null;
         }
-        public void pisz()
+        public string Pisz()
         {
-            if (a != 0) Console.Write(a + "*x^(2)");
-            if (b > 0) Console.Write(" + " + b + "*x");
-            else if (b < 0) Console.Write(" - " + (-1*b) + "*x");
-            if (c > 0) Console.Write(" + " + c);
-            else if (c < 0) Console.Write(" - " + (-1*c));
-            Console.WriteLine(" = 0");
+            string r = "";
+            if (a != 0) r += a.ToString() + "*x^(2)";
+            if (b > 0) r += " + " + b.ToString() + "*x";
+            else if (b < 0) r += " - " + (-1*b).ToString() + "*x";
+            if (c > 0) r += " + " + c.ToString();
+            else if (c < 0) r += " - " + (-1 * c).ToString();
+            r += " = 0";
+            return r;
         }
     }
 }
