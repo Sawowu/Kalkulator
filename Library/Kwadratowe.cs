@@ -15,7 +15,7 @@ namespace Library
         public double c { get; private set; }
         private double Delta()
         {
-            return Math.Pow(this.a, 2) - (4*this.b*this.c);
+            return Math.Pow(this.b, 2) - (4*this.a*this.c);
         }
         public double[]? Rozwiazania()
         {

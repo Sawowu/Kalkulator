@@ -112,7 +112,10 @@ double solve(string eq)
     double sol = Convert.ToDouble(eq);
     return sol;
 }
+
+string history = "C:\\Users\\DELL\\source\\repos\\Sawowu\\Kalkulator\\historia.txt";
 StreamWriter sw;
+FileStream fs;
 //UI
 for (; ; )
 {
@@ -127,7 +130,7 @@ for (; ; )
     {
         for (; ; )
         {
-            FileStream op = new FileStream("C:\\Users\\DELL\\source\\repos\\Sawowu\\Kalkulator\\historia.txt", FileMode.Open, FileAccess.Read);
+            FileStream op = new FileStream(history, FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(op);
             Console.WriteLine("HISTORIA:");
             while (!sr.EndOfStream)
@@ -140,10 +143,11 @@ for (; ; )
             op.Close();
             if (choice == 'D')
             {
-                op = new FileStream("C:\\Users\\DELL\\source\\repos\\Sawowu\\Kalkulator\\historia.txt", FileMode.Create, FileAccess.Write);
+                op = new FileStream(history, FileMode.Create, FileAccess.Write);
                 op.Close();
             }
-            else if (choice == 'B') break;
+            Console.Clear();
+            if (choice == 'B') break;
         }
         choice = 'h';
     }
@@ -152,13 +156,13 @@ for (; ; )
         Console.WriteLine("Do zobaczenia!");
         break;
     }
-    FileStream fs = new FileStream("C:\\Users\\DELL\\source\\repos\\Sawowu\\Kalkulator\\historia.txt", FileMode.Append, FileAccess.Write);
     switch (choice)
     {
         case '1':
             bool guide = true;
             for (; ; )
             {
+                fs = new FileStream(history, FileMode.Append, FileAccess.Write);
                 if (guide)
                 {
                     Console.WriteLine("Dostępne działania\n '+' Dodawanie\n '-'\n '*' Mnożenie\n '/' Dzielenie\n '^' Potęgowanie\n '( )' Nawiasy\n ',' Liczby po przecinku");
@@ -170,13 +174,14 @@ for (; ; )
                 string eq = Console.ReadLine();
                 Console.Clear();
                 if (eq.ToUpper() == "P") { guide = true; continue; }
-                if (eq.ToUpper() == "B") break;
+                if (eq.ToUpper() == "B") { fs.Close(); break; }
                 double sol = Math.Round(solve(eq), 6);
                 Console.Write(eq);
                 Console.WriteLine(" = " + sol.ToString());
                 sw = new StreamWriter(fs);
                 sw.WriteLine("\n" + eq + " = " + sol.ToString());
                 sw.Close();
+                fs.Close();
             }
             break;
         case '2':
@@ -188,6 +193,8 @@ for (; ; )
                 Console.WriteLine("B - Wyjdź");
                 choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
                 Console.Clear();
+
+                //Równanie Kwadratowe
                 switch (choice)
                 {
                     case '1':
@@ -198,27 +205,29 @@ for (; ; )
                         Console.WriteLine("Podaj współczynnik c:");
                         c = Convert.ToDouble(Console.ReadLine());
                         Console.Clear();
+                        fs = new FileStream(history, FileMode.Append, FileAccess.Write);
                         sw = new StreamWriter(fs);
                         Kwadratowe kw = new Kwadratowe(a, b, c);
                         Console.WriteLine(kw.Pisz());
-                        sw.WriteLine(kw.Pisz());
+                        sw.WriteLine("\n"+kw.Pisz());
                         double[] zerow = kw.Rozwiazania();
                         if (zerow != null && zerow.Length == 1)
                         {
-                            Console.WriteLine("\nx = " + zerow[0].ToString() + "\n");
-                            sw.WriteLine("\nx = " + zerow[0].ToString() + "\n");
+                            Console.WriteLine("\nx = " + zerow[0].ToString());
+                            sw.WriteLine("x = " + zerow[0].ToString());
                         }
                         else if (zerow != null && zerow.Length == 2)
                         {
                             Console.WriteLine("\nx1 = " + zerow[0].ToString() + "\nx2 = " + zerow[1].ToString());
-                            sw.WriteLine("\nx1 = " + zerow[0].ToString() + "\nx2 = " + zerow[1].ToString());
+                            sw.WriteLine("x1 = " + zerow[0].ToString() + "\nx2 = " + zerow[1].ToString());
                         }
                         else
                         {
                             Console.WriteLine("\nRównanie nie ma rozwiązań");
-                            sw.WriteLine("\nRównanie nie ma rozwiązań");
+                            sw.WriteLine("Równanie nie ma rozwiązań");
                         }
                         sw.Close();
+                        fs.Close();
                         break;
                     case '2':
                         for (; ; )
@@ -244,9 +253,11 @@ for (; ; )
                                         choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
                                         if (choice == 'B') break;
                                     }
+                                    fs = new FileStream(history, FileMode.Append, FileAccess.Write);
                                     sw = new StreamWriter(fs);
-                                    sw.WriteLine("\nBok = " + sq.a + "\nObwód = " + sq.Obwod() + "\nPole = " + sq.Pole() + "\nPrzekątna = " + sq.Przekatna());
+                                    sw.WriteLine("\nKwadrat\nBok = " + sq.a + "\nObwód = " + sq.Obwod() + "\nPole = " + sq.Pole() + "\nPrzekątna = " + sq.Przekatna());
                                     sw.Close();
+                                    fs.Close();
                                     break;
                                 case '2':
                                     Console.WriteLine("Podaj długość boku a:");
@@ -266,6 +277,11 @@ for (; ; )
                                         choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
                                         if (choice == 'B') break;
                                     }
+                                    fs = new FileStream(history, FileMode.Append, FileAccess.Write);
+                                    sw = new StreamWriter(fs);
+                                    sw.WriteLine("\nProstokąt\na = " + pr.a + "\na = " + pr.a + "\nObwód = " + pr.Obwod() + "\nPole = " + pr.Pole() + "\nPrzekątna = " + pr.Przekatna());
+                                    sw.Close();
+                                    fs.Close();
                                     break;
                                 case '3':
                                     Console.WriteLine("Podaj długość podstawy a:");
@@ -290,6 +306,11 @@ for (; ; )
                                         choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
                                         if (choice == 'B') break;
                                     }
+                                    fs = new FileStream(history, FileMode.Append, FileAccess.Write);
+                                    sw = new StreamWriter(fs);
+                                    sw.WriteLine("\nProstokąt\na = " + tr.a + "\nb = " + tr.b + "\nc = " + tr.c + "\nh = " + tr.h + "\nObwód = " + tr.Obwod() + "\nPole = " + tr.Pole());
+                                    sw.Close();
+                                    fs.Close();
                                     break;
                                 case '4':
                                     Console.WriteLine("Podaj długość podstawy a:");
@@ -311,6 +332,11 @@ for (; ; )
                                         choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
                                         if (choice == 'B') break;
                                     }
+                                    fs = new FileStream(history, FileMode.Append, FileAccess.Write);
+                                    sw = new StreamWriter(fs);
+                                    sw.WriteLine("\nRównoległobok\na = " + ro.a + "\nb = " + ro.b + "\nh = " + ro.h + "\nObwód = " + ro.Obwod() + "\nPole = " + ro.Pole());
+                                    sw.Close();
+                                    fs.Close();
                                     break;
                                 case '5':
                                     Console.WriteLine("Podaj długość promienia:");
@@ -326,6 +352,11 @@ for (; ; )
                                         choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
                                         if (choice == 'B') break;
                                     }
+                                    fs = new FileStream(history, FileMode.Append, FileAccess.Write);
+                                    sw = new StreamWriter(fs);
+                                    sw.WriteLine("\nKoło\nPromień = " + ko.r + "\nObwód = " + ko.Obwod() + "\nPole = " + ko.Pole());
+                                    sw.Close();
+                                    fs.Close();
                                     break;
                                 case '6':
                                     Console.WriteLine("Podaj długość boku a:");
@@ -357,6 +388,11 @@ for (; ; )
                                         choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
                                         if (choice == 'B') break;
                                     }
+                                    fs = new FileStream(history, FileMode.Append, FileAccess.Write);
+                                    sw = new StreamWriter(fs);
+                                    sw.WriteLine("\nTrójkąt\na = " + tro.a + "\nb = " + tro.b + "\nc = " + tro.c + "\nh = " + tro.h + "\nObwód = " + tro.Obwod() + "\nPole = " + tro.Pole());
+                                    sw.Close();
+                                    fs.Close();
                                     break;
                             }
                         }
@@ -366,5 +402,4 @@ for (; ; )
             }
             break;
     }
-    fs.Close();
 }
