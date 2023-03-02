@@ -4,8 +4,6 @@ using System.Globalization;
 using System.IO;
 
 char[] symbols = { '(', ')', '^', '*', '/', '+', '-' };
-//NumberFormatInfo provider = new NumberFormatInfo();
-//provider.NumberDecimalSeparator = ".";
 int startIndex = 0;
 int endIndex = 0;
 double[] numberFinder(string eq, int j)

@@ -22,7 +22,7 @@ namespace Library
             double delta = this.Delta();
             if(delta>0)
             {
-                return new double[] { ((-this.b + delta) / (2 * this.a)), ((-this.b - delta) / (2 * this.a)) };
+                return new double[] { ((-this.b + Math.Sqrt(delta)) / (2 * this.a)), ((-this.b - Math.Sqrt(delta)) / (2 * this.a)) };
             }else if(delta==0)
             {
                 return new double[] { (-this.b) / (2 * this.a) };
