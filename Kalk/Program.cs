@@ -32,7 +32,7 @@ double[] numberFinder(string eq, int j)
         }
         else break;
     }
-    return new double[] {Convert.ToDouble(num1), Convert.ToDouble(num2), num1.Length};
+    return new double[] { Convert.ToDouble(num1), Convert.ToDouble(num2), num1.Length };
 }
 
 double solve(string eq)
@@ -40,9 +40,9 @@ double solve(string eq)
     startIndex = 0;
     endIndex = 0;
 
-    for(int i = 0; i<symbols.Length; i++)
+    for (int i = 0; i < symbols.Length; i++)
     {
-        for(int j = 0; j<eq.Length; j++ )
+        for (int j = 0; j < eq.Length; j++)
         {
             //Obliczanie wyrażenia w nawiasie
             if (i == 0)
@@ -53,29 +53,32 @@ double solve(string eq)
                 }
                 if (j == eq.Length - 1 && eq[j] != symbols[i] && startIndex < 0) { i++; break; }
             }
-            else if(i==1) {
-                if (j < startIndex) j=startIndex;
-                if (eq[j] == symbols[1]) {
-                    eq = eq.Replace(eq.Substring(startIndex, j - startIndex + 1), Convert.ToString(solve(eq.Substring(startIndex+1, j - startIndex-1))));
+            else if (i == 1)
+            {
+                if (j < startIndex) j = startIndex;
+                if (eq[j] == symbols[1])
+                {
+                    eq = eq.Replace(eq.Substring(startIndex, j - startIndex + 1), Convert.ToString(solve(eq.Substring(startIndex + 1, j - startIndex - 1))));
                     i = 0; break;
                 }
             }
             //Operacja potęgowania
-            else if(i==2 && eq[j] == symbols[2])
+            else if (i == 2 && eq[j] == symbols[2])
             {
                 double[] numbers = numberFinder(eq, j);
                 double result = Math.Pow(numbers[0], numbers[1]);
                 eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex + 1), Convert.ToString(result));
             }
-            else if (i==3 || i==4)
+            else if (i == 3 || i == 4)
             {
-                if (eq[j] == symbols[3] || eq[j] == symbols[4]) {
+                if (eq[j] == symbols[3] || eq[j] == symbols[4])
+                {
                     double[] numbers = numberFinder(eq, j);
                     //Mnożenie
                     if (eq[j] == symbols[3])
                     {
                         double result = numbers[0] * numbers[1];
-                        eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex+1), Convert.ToString(result));
+                        eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex + 1), Convert.ToString(result));
                     }
                     //Dzielenie
                     else
@@ -85,8 +88,9 @@ double solve(string eq)
                     }
                 }
             }
-            if(i == 5 || i == 6){
-                if ((eq[j] == symbols[5] || eq[j] == symbols[6]) && j!=0)
+            if (i == 5 || i == 6)
+            {
+                if ((eq[j] == symbols[5] || eq[j] == symbols[6]) && j != 0)
                 {
                     double[] numbers = numberFinder(eq, j);
                     //Dodawanie
@@ -96,7 +100,7 @@ double solve(string eq)
                         eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex + 1), Convert.ToString(result));
                     }
                     //Odejmowanie
-                    else if (numbers[2] >=1)
+                    else if (numbers[2] >= 1)
                     {
                         double result = numbers[0] - numbers[1];
                         eq = eq.Replace(eq.Substring(startIndex, endIndex - startIndex + 1), Convert.ToString(result));
@@ -119,9 +123,9 @@ for (; ; )
     Console.WriteLine("B - Zakończ");
     char choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
     Console.Clear();
-    if(choice == 'H')
+    if (choice == 'H')
     {
-        for(; ; )
+        for (; ; )
         {
             FileStream op = new FileStream("C:\\Users\\DELL\\source\\repos\\Sawowu\\Kalkulator\\historia.txt", FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(op);
@@ -134,7 +138,7 @@ for (; ; )
             Console.WriteLine("\nD - Usuń\nB - Wyjdź");
             choice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
             op.Close();
-            if (choice == 'D') 
+            if (choice == 'D')
             {
                 op = new FileStream("C:\\Users\\DELL\\source\\repos\\Sawowu\\Kalkulator\\historia.txt", FileMode.Create, FileAccess.Write);
                 op.Close();
@@ -171,13 +175,13 @@ for (; ; )
                 Console.Write(eq);
                 Console.WriteLine(" = " + sol.ToString());
                 sw = new StreamWriter(fs);
-                sw.WriteLine("\n"+eq + " = " + sol.ToString());
+                sw.WriteLine("\n" + eq + " = " + sol.ToString());
                 sw.Close();
             }
             break;
         case '2':
             double a, b, c, h;
-            for(; ; )
+            for (; ; )
             {
                 Console.WriteLine("1 - Równanie Kwadratowe");
                 Console.WriteLine("2 - Figury Geometryczne");
@@ -217,7 +221,7 @@ for (; ; )
                         sw.Close();
                         break;
                     case '2':
-                        for(; ; )
+                        for (; ; )
                         {
                             Console.Clear();
                             Console.WriteLine("1 - Kwadrat\n2 - Prostokąt\n3 - Trapez\n4 - Równoległobok\n5 - Koło\n6 - Trójkąt\nB - Wyjdź");
@@ -230,10 +234,10 @@ for (; ; )
                                     a = Convert.ToDouble(Console.ReadLine());
                                     Kwadrat sq = new Kwadrat(a);
                                     Console.Clear();
-                                    for(; ; )
+                                    for (; ; )
                                     {
-                                        Console.WriteLine("Bok = "+sq.a);
-                                        Console.WriteLine("Obwód = "+sq.Obwod());
+                                        Console.WriteLine("Bok = " + sq.a);
+                                        Console.WriteLine("Obwód = " + sq.Obwod());
                                         Console.WriteLine("Pole = " + sq.Pole());
                                         Console.WriteLine("Przekątna = " + sq.Przekatna());
                                         Console.WriteLine("B - Wyjdź");
