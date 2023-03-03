@@ -6,10 +6,14 @@ using System.IO;
 char[] symbols = { '(', ')', '^', '*', '/', '+', '-' };
 int startIndex = 0;
 int endIndex = 0;
+
+//Znajdowanie liczb po lewej i prawej stronie operacji
 double[] numberFinder(string eq, int j)
 {
     string num1 = "";
     string num2 = "";
+
+    //Znajdowanie liczby po lewej stronie operacji
     num1 = Convert.ToString(eq[j - 1]);
     startIndex = j - 1;
     for (int k = j - 2; k >= 0; k--)
@@ -21,6 +25,8 @@ double[] numberFinder(string eq, int j)
         }
         else break;
     }
+
+    //Znajdowanie liczby po prawej stronie operacji
     num2 = Convert.ToString(eq[j + 1]);
     endIndex = j + 1;
     for (int k = j + 2; k < eq.Length; k++)
@@ -32,6 +38,7 @@ double[] numberFinder(string eq, int j)
         }
         else break;
     }
+
     return new double[] { Convert.ToDouble(num1), Convert.ToDouble(num2), num1.Length };
 }
 
@@ -163,18 +170,24 @@ for (; ; )
             for (; ; )
             {
                 fs = new FileStream(history, FileMode.Append, FileAccess.Write);
+
+                //Wyświetlanie instrukcji
                 if (guide)
                 {
                     Console.WriteLine("Dostępne działania\n '+' Dodawanie\n '-'\n '*' Mnożenie\n '/' Dzielenie\n '^' Potęgowanie\n '( )' Nawiasy\n ',' Liczby po przecinku");
                     guide = false;
                 }
                 else Console.WriteLine("P - Pomoc");
+
                 Console.WriteLine("B - Wyjdź");
                 Console.WriteLine("\nDziałanie:");
                 string eq = Console.ReadLine();
+
                 Console.Clear();
+
                 if (eq.ToUpper() == "P") { guide = true; continue; }
                 if (eq.ToUpper() == "B") { fs.Close(); break; }
+
                 double sol = Math.Round(solve(eq), 6);
                 Console.Write(eq);
                 Console.WriteLine(" = " + sol.ToString());
@@ -204,13 +217,19 @@ for (; ; )
                         b = Convert.ToDouble(Console.ReadLine());
                         Console.WriteLine("Podaj współczynnik c:");
                         c = Convert.ToDouble(Console.ReadLine());
+
                         Console.Clear();
+
                         fs = new FileStream(history, FileMode.Append, FileAccess.Write);
                         sw = new StreamWriter(fs);
+
                         Kwadratowe kw = new Kwadratowe(a, b, c);
+
                         Console.WriteLine(kw.Pisz());
                         sw.WriteLine("\n"+kw.Pisz());
+
                         double[] zerow = kw.Rozwiazania();
+
                         if (zerow != null && zerow.Length == 1)
                         {
                             Console.WriteLine("\nx = " + zerow[0].ToString());
@@ -229,6 +248,7 @@ for (; ; )
                         sw.Close();
                         fs.Close();
                         break;
+                    //Figury
                     case '2':
                         for (; ; )
                         {
@@ -238,9 +258,11 @@ for (; ; )
                             if (choice == 'B') break;
                             switch (choice)
                             {
+                                //Kwadrat
                                 case '1':
                                     Console.WriteLine("Podaj długość boku:");
                                     a = Convert.ToDouble(Console.ReadLine());
+
                                     Kwadrat sq = new Kwadrat(a);
                                     Console.Clear();
                                     for (; ; )
@@ -259,11 +281,14 @@ for (; ; )
                                     sw.Close();
                                     fs.Close();
                                     break;
+
+                                //Prostokąt
                                 case '2':
                                     Console.WriteLine("Podaj długość boku a:");
                                     a = Convert.ToDouble(Console.ReadLine());
                                     Console.WriteLine("Podaj długość boku b:");
                                     b = Convert.ToDouble(Console.ReadLine());
+
                                     Prostokat pr = new Prostokat(a, b);
                                     Console.Clear();
                                     for (; ; )
@@ -283,6 +308,8 @@ for (; ; )
                                     sw.Close();
                                     fs.Close();
                                     break;
+
+                                //Trapez
                                 case '3':
                                     Console.WriteLine("Podaj długość podstawy a:");
                                     a = Convert.ToDouble(Console.ReadLine());
@@ -292,6 +319,7 @@ for (; ; )
                                     c = Convert.ToDouble(Console.ReadLine());
                                     Console.WriteLine("Podaj długość wysokości h:");
                                     h = Convert.ToDouble(Console.ReadLine());
+
                                     Trapez tr = new Trapez(a, b, c, h);
                                     Console.Clear();
                                     for (; ; )
@@ -312,6 +340,8 @@ for (; ; )
                                     sw.Close();
                                     fs.Close();
                                     break;
+
+                                //Równoległobok
                                 case '4':
                                     Console.WriteLine("Podaj długość podstawy a:");
                                     a = Convert.ToDouble(Console.ReadLine());
@@ -319,6 +349,7 @@ for (; ; )
                                     b = Convert.ToDouble(Console.ReadLine());
                                     Console.WriteLine("Podaj długość wysokości h:");
                                     h = Convert.ToDouble(Console.ReadLine());
+
                                     Rownoleglobok ro = new Rownoleglobok(a, b, h);
                                     Console.Clear();
                                     for (; ; )
@@ -338,9 +369,12 @@ for (; ; )
                                     sw.Close();
                                     fs.Close();
                                     break;
+
+                                //Koło
                                 case '5':
                                     Console.WriteLine("Podaj długość promienia:");
                                     double r = Convert.ToDouble(Console.ReadLine());
+
                                     Kolo ko = new Kolo(r);
                                     Console.Clear();
                                     for (; ; )
@@ -358,6 +392,8 @@ for (; ; )
                                     sw.Close();
                                     fs.Close();
                                     break;
+
+                                //Trójkąt
                                 case '6':
                                     Console.WriteLine("Podaj długość boku a:");
                                     a = Convert.ToDouble(Console.ReadLine());
@@ -365,6 +401,7 @@ for (; ; )
                                     b = Convert.ToDouble(Console.ReadLine());
                                     Console.WriteLine("Podaj długość boku c:");
                                     c = Convert.ToDouble(Console.ReadLine());
+
                                     if (a == b && b == c) h = Math.Round(Math.Sqrt(a * a - a / 2 * (a / 2)), 6);
                                     else if (b == c) h = Math.Round(Math.Sqrt(b * b - a / 2 * (a / 2)), 6);
                                     else if (a == c) h = Math.Round(Math.Sqrt(a * a - b / 2 * (b / 2)), 6);
@@ -374,8 +411,10 @@ for (; ; )
                                         Console.WriteLine("Podaj wysokośc h:");
                                         h = Convert.ToDouble(Console.ReadLine());
                                     }
+
                                     Trojkat tro = new Trojkat(a, b, c, h);
                                     Console.Clear();
+
                                     for (; ; )
                                     {
                                         Console.WriteLine("a = " + tro.a.ToString());
@@ -398,7 +437,7 @@ for (; ; )
                         }
                         break;
                 }
-                if (choice == 'B') break;
+                if (choice == 'B') { Console.Clear(); break; }
             }
             break;
     }
